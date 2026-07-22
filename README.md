@@ -18,6 +18,10 @@ The verification environment is designed with a layered architecture, including 
 * **Scenario Generation:** Creates dynamic test cases covering normal operations, overflow, underflow, and simultaneous read/write conditions.
 * **Self-Checking Scoreboard:** Compares DUT outputs against a reference queue with automated PASS/FAIL reporting.
 
+* **FIFO Depth calculation:**
+ `Buffer size= Burst size - Data read during burst write`
+If write speed high as compared to read speed and data is continuous, design is not possible.
+If write speed is high as compared to read speed, design is only possible if data is coming in the form of bursts and there is sufficient burst to burst gap.
 ### Project Architecture
 
 #### DUT Architecture
