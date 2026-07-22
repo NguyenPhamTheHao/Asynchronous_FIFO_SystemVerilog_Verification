@@ -1,0 +1,5 @@
+# do run.do
+#   reset_test  single_wr_rd_test  multiple_wr_rd_test  overflow_test  underflow_test  wrap_around_test  reset_at_middle_test  simultaneous_wr_rd_test  
+#  clean
+# error deleting "transcript": permission denied
+#  exit
