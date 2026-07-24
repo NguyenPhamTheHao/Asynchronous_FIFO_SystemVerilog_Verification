@@ -1,0 +1,156 @@
+# vsim -sv_seed 1 -coverage -coveranalysis -debugDB -l log/simultaneous_wr_rd_test_1.log -voptargs="+acc" -assertdebug -c testbench -do "coverage save -codeAll -cvg -onexit simultaneous_wr_rd_test.ucdb; log -r /*; run -all; exit" "+simultaneous_wr_rd_test" 
+# Start time: 22:52:12 on Jul 22,2026
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# //  Questa Sim-64
+# //  Version 10.7c win64 Aug 18 2018
+# //
+# //  Copyright 1991-2018 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# Loading sv_std.std
+# Loading work.interf(fast)
+# Loading work.Asyn_Pkg(fast)
+# Loading work.test_pkg(fast)
+# Loading work.testbench(fast)
+# Loading work.interf(fast)
+# Loading work.AsynFF(fast)
+# Loading work.FIFO_mem(fast)
+# Loading work.Write_Pointer_Handler(fast)
+# Loading work.Read_Pointer_Handler(fast)
+# Loading work.Comparison_Pointer(fast)
+# ** Note: (vsim-8716) Reusing existing debug database vsim.dbg.
+# coverage save -codeAll -cvg -onexit simultaneous_wr_rd_test.ucdb
+#  log -r /*
+#  run -all
+# [0] [ENVIRONMENT] Building components...
+# 
+# [0] [TEST_8] === SIMULTANEOUS WRITE & READ TEST ===
+# [0] [Generator] Sent WRITE transaction to driver
+# [15] [MON_WR] Captured WRITE attempt: data = 0xf8 | full=0, empty=1
+# [15] [SCB-DATA] [PASS] Pushed 0xf8 into Ref Queue (Size: 1)
+# 
+# =======FINISHED VERIFIED NO 1=============
+# 
+# [15] [Generator] Sent WRITE transaction to driver
+# [35] [MON_WR] Captured WRITE attempt: data = 0x83 | full=0, empty=1
+# [35] [SCB-DATA] [PASS] Pushed 0x83 into Ref Queue (Size: 2)
+# 
+# =======FINISHED VERIFIED NO 2=============
+# 
+# [35] [Generator] Sent WRITE transaction to driver
+# [55] [MON_WR] Captured WRITE attempt: data = 0x27 | full=0, empty=0
+# [55] [SCB-DATA] [PASS] Pushed 0x27 into Ref Queue (Size: 3)
+# 
+# =======FINISHED VERIFIED NO 3=============
+# 
+# [55] [Generator] Sent WRITE transaction to driver
+# [75] [MON_WR] Captured WRITE attempt: data = 0x2e | full=0, empty=0
+# [75] [SCB-DATA] [PASS] Pushed 0x2e into Ref Queue (Size: 4)
+# 
+# =======FINISHED VERIFIED NO 4=============
+# 
+# [75] [Generator] Sent WRITE transaction to driver
+# [95] [MON_WR] Captured WRITE attempt: data = 0x52 | full=0, empty=0
+# [95] [SCB-DATA] [PASS] Pushed 0x52 into Ref Queue (Size: 5)
+# 
+# =======FINISHED VERIFIED NO 5=============
+# 
+# [95] [Generator] Sent WRITE transaction to driver
+# [115] [MON_WR] Captured WRITE attempt: data = 0xe | full=0, empty=0
+# [115] [SCB-DATA] [PASS] Pushed 0xe into Ref Queue (Size: 6)
+# 
+# =======FINISHED VERIFIED NO 6=============
+# 
+# [115] [Generator] Sent WRITE transaction to driver
+# [135] [MON_WR] Captured WRITE attempt: data = 0x25 | full=0, empty=0
+# [135] [SCB-DATA] [PASS] Pushed 0x25 into Ref Queue (Size: 7)
+# 
+# =======FINISHED VERIFIED NO 7=============
+# 
+# [135] [Generator] Sent WRITE transaction to driver
+# [155] [MON_WR] Captured WRITE attempt: data = 0xa1 | full=0, empty=0
+# [155] [SCB-DATA] [PASS] Pushed 0xa1 into Ref Queue (Size: 8)
+# 
+# =======FINISHED VERIFIED NO 8=============
+# 
+# [155] [Generator] Sent WRITE transaction to driver
+# [155] [Generator] Sent READ transaction to driver
+# [175] [MON_WR] Captured WRITE attempt: data = 0x60 | full=0, empty=0
+# [175] [SCB-DATA] [PASS] Pushed 0x60 into Ref Queue (Size: 9)
+# 
+# =======FINISHED VERIFIED NO 9=============
+# 
+# [175] [Generator] Sent WRITE transaction to driver
+# [175] [Generator] Sent READ transaction to driver
+# [190] [MON_RD] Captured READ attempt: data = 0xf8 | full=0, empty=0
+# [190] [SCB-DATA] [PASS] Read Match: 0xf8
+# 
+# =======FINISHED VERIFIED NO 10=============
+# 
+# [195] [MON_WR] Captured WRITE attempt: data = 0x97 | full=0, empty=0
+# [195] [SCB-DATA] [PASS] Pushed 0x97 into Ref Queue (Size: 9)
+# 
+# =======FINISHED VERIFIED NO 11=============
+# 
+# [203] [Generator] Sent WRITE transaction to driver
+# [203] [Generator] Sent READ transaction to driver
+# [215] [MON_WR] Captured WRITE attempt: data = 0xca | full=0, empty=0
+# [215] [SCB-DATA] [PASS] Pushed 0xca into Ref Queue (Size: 10)
+# 
+# =======FINISHED VERIFIED NO 12=============
+# 
+# [218] [MON_RD] Captured READ attempt: data = 0x83 | full=0, empty=0
+# [218] [SCB-DATA] [PASS] Read Match: 0x83
+# 
+# =======FINISHED VERIFIED NO 13=============
+# 
+# [231] [Generator] Sent WRITE transaction to driver
+# [231] [Generator] Sent READ transaction to driver
+# [245] [MON_WR] Captured WRITE attempt: data = 0x8a | full=0, empty=0
+# [245] [SCB-DATA] [PASS] Pushed 0x8a into Ref Queue (Size: 10)
+# 
+# =======FINISHED VERIFIED NO 14=============
+# 
+# [246] [MON_RD] Captured READ attempt: data = 0x27 | full=0, empty=0
+# [246] [SCB-DATA] [PASS] Read Match: 0x27
+# 
+# =======FINISHED VERIFIED NO 15=============
+# 
+# [259] [Generator] Sent WRITE transaction to driver
+# [259] [Generator] Sent READ transaction to driver
+# [274] [MON_RD] Captured READ attempt: data = 0x2e | full=0, empty=0
+# [274] [SCB-DATA] [PASS] Read Match: 0x2e
+# 
+# =======FINISHED VERIFIED NO 16=============
+# 
+# [275] [MON_WR] Captured WRITE attempt: data = 0x56 | full=0, empty=0
+# [275] [SCB-DATA] [PASS] Pushed 0x56 into Ref Queue (Size: 9)
+# 
+# =======FINISHED VERIFIED NO 17=============
+# 
+# [287] [Generator] Sent WRITE transaction to driver
+# [287] [Generator] Sent READ transaction to driver
+# 
+# ==========================================================
+#                    SCOREBOARD SUMMARY                     
+# ==========================================================
+#  Total Transactions Checked : 17
+#  Total Errors Detected      : 0
+# ----------------------------------------------------------
+#  >>> TESTCASE RESULT : [ PASSED ] <<<
+# ==========================================================
+# 
+# 300: [base_test] End simulation
+# ** Note: $finish    : ../testcase/base_test.sv(50)
+#    Time: 300 ns  Iteration: 0  Instance: /testbench
+# Saving coverage database on exit...
+# End time: 22:52:13 on Jul 22,2026, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0

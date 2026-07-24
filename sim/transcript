@@ -1,5 +1,23 @@
 # do run.do
 #   reset_test  single_wr_rd_test  multiple_wr_rd_test  overflow_test  underflow_test  wrap_around_test  reset_at_middle_test  simultaneous_wr_rd_test  
-#  clean
-# error deleting "transcript": permission denied
-#  exit
+#  build
+# QuestaSim-64 vlog 10.7c Compiler 2018.08 Aug 18 2018
+# Start time: 22:54:02 on Jul 22,2026
+# vlog -coveropt 3 "+cover=bcestf" -sv -f compile.f 
+# -- Compiling module FIFO_mem
+# -- Compiling module Write_Pointer_Handler
+# -- Compiling module Read_Pointer_Handler
+# -- Compiling module Comparison_Pointer
+# -- Compiling module AsynFF
+# -- Compiling interface interf
+# -- Compiling package Asyn_Pkg
+# -- Compiling package test_pkg
+# -- Importing package Asyn_Pkg
+# -- Compiling module testbench
+# -- Importing package test_pkg
+# 
+# Top level modules:
+# 	testbench
+# End time: 22:54:02 on Jul 22,2026, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+#  run_test overflow_test
