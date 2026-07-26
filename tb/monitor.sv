@@ -24,8 +24,6 @@ class monitor #(parameter DATA_WIDTH=8);
             end
         end
     endtask
-
-    // 2. Bắt giao dịch READ
     task monitor_read();
         forever begin
             @(posedge vif.rclk);
