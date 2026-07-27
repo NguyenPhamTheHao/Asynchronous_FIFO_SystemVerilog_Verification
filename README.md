@@ -29,6 +29,7 @@ If write speed is high as compared to read speed, design is only possible if dat
 ![Asynchronous First In First Out Block diagram](image/Asynchronous_FIFO_Block.png)
 
 #### Verification Environment
+
 ![Verification_Env](image/Verification_Envir.png)
 ### Project Components
 
@@ -69,6 +70,7 @@ The verification strategy is built upon a hybrid approach that combines dynamic 
 
 ### Achievements
 #### Verification Data Flow
+
 ![result_verification_flow](image/result_of_verification_flow.png)
 
 The log above illustrates the step-by-step data flow of the testbench during the execution of the SIMULTANEOUS WRITE & READ TEST. The verification components operate seamlessly across simulation timestamps:
@@ -76,7 +78,9 @@ The log above illustrates the step-by-step data flow of the testbench during the
 * **Monitor**: Accurately captures write operations and their payload data at exact sample edge
 * **Scoreboard**: Receives monitored transactions and pushes them into the Reference Queue for automated comparison
 #### Scoreboard Summary Report
+
 ![result_verification_report](image/result_report.png)
 Test Outcome: The testcase terminated cleanly with an explicit [ PASSED ] status at timestamp
 #### Waveform
+
 ![waveform](image/Waveform_Of_testcase8.png)
