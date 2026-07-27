@@ -80,6 +80,7 @@ The log above illustrates the step-by-step data flow of the testbench during the
 #### Scoreboard Summary Report
 
 ![result_verification_report](image/result_report.png)
+
 Test Outcome: The testcase terminated cleanly with an explicit [ PASSED ] status at timestamp
 #### Waveform
 
