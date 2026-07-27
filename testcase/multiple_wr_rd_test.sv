@@ -13,8 +13,8 @@ class test_multiple_write_read_test #(parameter DATA_WIDTH = 8) extends base_tes
 
        
         for (int i = 0; i < 4; i++) begin
-            wdata = $urandom;
             write(wdata);
+            wdata=~wdata;
             
         end
 

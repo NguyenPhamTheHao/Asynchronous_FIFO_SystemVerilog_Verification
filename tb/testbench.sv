@@ -7,7 +7,7 @@ module testbench;
     logic wclk = 0;
     logic rclk = 0;
 
-    interf #(DATA_WIDTH) u_interf(
+    interf #(DATA_WIDTH,ADDR_WIDTH) u_interf(
         .wclk (wclk),
         .rclk (rclk)
     );

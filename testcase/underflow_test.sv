@@ -11,6 +11,7 @@ class underflow_test #(DATA_WIDTH=8) extends base_test #(DATA_WIDTH);
     wdata=$urandom;
     write(wdata);
 
+    repeat (2) @(posedge vif.rclk);
     for(int i=0;i<5;i=i+1) begin
         read(rdata);
     end
