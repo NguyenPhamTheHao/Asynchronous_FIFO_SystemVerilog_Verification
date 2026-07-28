@@ -15,7 +15,8 @@ class overflow_test #(DATA_WIDTH=8) extends base_test #(DATA_WIDTH);
          end
 
          repeat(2) @(posedge vif.wclk);
-
+         wdata=$urandom;
+        write(wdata);
          $display("[%0t] [TEST_5] === END TEST ===\n", $time);
     endtask
 endclass

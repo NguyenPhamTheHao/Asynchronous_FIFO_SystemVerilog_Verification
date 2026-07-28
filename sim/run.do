@@ -3,7 +3,6 @@
 # Execution: Load script with 'do run.do' or 'source run.do'
 ##################################################################################################
 
-
 set TEST_LIST { \
     reset_test \
     single_wr_rd_test \
@@ -25,21 +24,24 @@ proc clean {} {
     puts "\[INFO\] Cleaned all build, simulation logs, and coverage files."
 }
 
-
 proc build {} {
     if {![file exists log]} { file mkdir log }
     if {![file exists work]} { 
         vlib work 
         vmap work work
     }
-    puts "\[INFO\] Compiling project using compile.f..."
-    if {[catch {vlog -coveropt 3 +cover=bcestf -sv -f compile.f} err]} {
+    puts "\[INFO\] Compiling RTL with Coverage and Testbench without Coverage..."
+    if {[catch {
+        # 1. Chỉ bật Code Coverage cho RTL
+        vlog -coveropt 3 +cover=bcestf -sv -f rtl.f
+        # 2. Biên dịch Testbench bình thường (Không bật Code Coverage)
+        vlog -coveropt 3 -sv -f tb.f
+    } err]} {
         puts "\[ERROR\] Compilation Failed: $err"
     } else {
         puts "\[INFO\] Compilation Successful!"
     }
 }
-
 
 proc run_test {{test_name "single_wr_rd_test"} {seed "1"}} {
     if {![file exists log]} { file mkdir log }
@@ -48,7 +50,6 @@ proc run_test {{test_name "single_wr_rd_test"} {seed "1"}} {
     puts "\[INFO\] Running Testcase: $test_name | Seed: $seed"
     puts "=========================================================================="
 
-    
     set cmd "vsim -sv_seed $seed -coverage -coveranalysis -debugDB -l log/${test_name}_${seed}.log -voptargs=+acc -assertdebug -c testbench -do \"coverage save -codeAll -cvg -onexit ${test_name}.ucdb; log -r /*; run -all; exit\" +${test_name}"
     
     eval $cmd
@@ -59,22 +60,18 @@ proc run_test {{test_name "single_wr_rd_test"} {seed "1"}} {
     puts "\[INFO\] Test execution finished. Log file: log/${test_name}_${seed}.log"
 }
 
-
 proc run_gui {{test_name "single_wr_rd_test"} {seed "1"}} {
     build
     puts "=========================================================================="
     puts "\[INFO\] Running GUI Testcase: $test_name | Seed: $seed"
     puts "=========================================================================="
     
-    
     vsim -sv_seed $seed -coverage -coveranalysis -debugDB -l log/${test_name}_${seed}.log -voptargs="+acc" -assertdebug testbench +${test_name}
-    
     
     add wave -r /testbench/*
     radix -hex
     run -all
 }
-
 
 proc run_all {} {
     global TEST_LIST
@@ -90,7 +87,6 @@ proc run_all {} {
     puts "                      ALL TESTS COMPLETED SUCCESSFULLY                      "
     puts "=========================================================================="
 }
-
 
 proc wave {} {
     if {[file exists vsim.wlf]} {
@@ -109,11 +105,11 @@ proc gen_cov {} {
     set ucdb_files [glob -nocomplain *.ucdb]
     
     if {[llength $ucdb_files] == 0} {
-        puts "\[ERROR\] No .ucdb files found! Please run tests (e.g., run_all) first."
+        puts "\[ERROR\] No .ucdb files found! Please run tests first."
         return
     }
     
-    puts "\[INFO\] Merging following UCDB files into IP.ucdb: $ucdb_files"
+    puts "\[INFO\] Merging UCDB files..."
     eval vcover merge IP.ucdb $ucdb_files
     
     puts "\[INFO\] Generating Summary Text Report..."
@@ -122,7 +118,7 @@ proc gen_cov {} {
     puts "\[INFO\] Generating Detailed Text Report..."
     vcover report -zeros -details -code bcesft -annotate -All -codeAll IP.ucdb -output coverage/detail_report.txt
     
-    puts "\[INFO\] Done! Text reports are saved in the 'coverage' folder."
+    puts "\[INFO\] Done! Check 'coverage/detail_report.txt'."
 }
 
 
@@ -131,19 +127,18 @@ proc gen_html {} {
     set ucdb_files [glob -nocomplain *.ucdb]
     
     if {[llength $ucdb_files] == 0} {
-        puts "\[ERROR\] No .ucdb files found! Please run tests (e.g., run_all) first."
+        puts "\[ERROR\] No .ucdb files found! Please run tests first."
         return
     }
     
-    puts "\[INFO\] Merging following UCDB files into IP.ucdb: $ucdb_files"
+    puts "\[INFO\] Merging UCDB files..."
     eval vcover merge IP.ucdb $ucdb_files
     
     puts "\[INFO\] Generating HTML Report..."
     vcover report -zeros -details -code bcesft -annotate -testhitdataAll -html -htmldir coverage/html_report IP.ucdb
     
-    puts "\[INFO\] Done! Open 'coverage/html_report/index.html' in your browser to view."
+    puts "\[INFO\] Done! Open 'coverage/html_report/index.html' in browser."
 }
-
 
 proc help {} {
     puts "=========================================================================="
@@ -151,11 +146,11 @@ proc help {} {
     puts "=========================================================================="
     puts "  build                  : Compile all SV files listed in compile.f"
     puts "  run_test <test_name>   : Run a testcase in background mode"
-    puts "  run_gui <test_name>    : (NEW) Run testcase in GUI mode with full Wave & Mem"
+    puts "  run_gui <test_name>    : Run testcase in GUI mode with full Wave & Mem"
     puts "  run_all                : Build and run ALL testcases sequentially"
     puts "  wave                   : Open wave viewer from saved vsim.wlf"
-    puts "  gen_cov                : Merge .ucdb files & generate Text Coverage Reports"
-    puts "  gen_html               : Merge .ucdb files & generate HTML Coverage Report"
+    puts "  gen_cov                : Merge .ucdb files & generate RTL Text Coverage Reports"
+    puts "  gen_html               : Merge .ucdb files & generate RTL HTML Coverage Report"
     puts "  clean                  : Delete compiled libraries, logs, and coverage files"
     puts "  help                   : Display this help menu"
     puts "=========================================================================="

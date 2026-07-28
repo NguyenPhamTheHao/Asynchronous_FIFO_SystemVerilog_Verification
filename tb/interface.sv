@@ -70,7 +70,7 @@ check_write_ptr_increase_gray_code: assert property(write_ptr_increase_gray_code
     else $error("[SVA] ERROR @%0t] Write pointer increase & Gray code check FAIL: Binary write pointer or Gray write pointer",$time);
 
 //Assertion 6
-property read_ptr_increase_gray_code_check;
+property read_ptr_increase_gray_code;
         logic [ADDR_WIDTH:0] expected_b_rptr;
         @(posedge rclk) disable iff (!r_rstn)
         (r_en && !empty, expected_b_rptr = testbench.u_AsynFF.u_Read_Pointer_Handler.b_rptr + 1'b1) |=> 
@@ -112,6 +112,23 @@ property rollover_read_ptr;
 endproperty
 check_rollover_read_ptr: assert property(rollover_read_ptr)
     else $error("[SVA ERROR @%0t] Rollover Read pointer FAIL",$time);
+
+    cov_rollover_write_ptr: cover property (
+        @(posedge wclk) disable iff (!w_rstn)
+        ((w_en && !full) && (testbench.u_AsynFF.u_Write_Pointer_Handler.b_wptr[ADDR_WIDTH-1:0] == '1))
+        |=> (testbench.u_AsynFF.u_Write_Pointer_Handler.b_wptr[ADDR_WIDTH-1:0] == '0)
+    );
+
+    cov_rollover_read_ptr: cover property (
+        @(posedge rclk) disable iff (!r_rstn)
+        ((r_en && !empty) && (testbench.u_AsynFF.u_Read_Pointer_Handler.b_rptr[ADDR_WIDTH-1:0] == '1))
+        |=> (testbench.u_AsynFF.u_Read_Pointer_Handler.b_rptr[ADDR_WIDTH-1:0] == '0)
+    );
+
     
+    cov_multiclk_empty_deassert: cover property (
+        @(posedge wclk) disable iff (!w_rstn || !r_rstn)
+        (w_en && !full && empty) |-> ##1 @(posedge rclk) ##[0:3] !empty
+    );
     `endif                                 
 endinterface
