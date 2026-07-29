@@ -57,20 +57,16 @@ class fifo_cov_model #(parameter DATA_WIDTH = 8);
         }
 
         CROSS_SIMULTANEOUS_STATES: cross CP_WEN, CP_REN, CP_FULL, CP_EMPTY {
-
-    bins concurrent_wr_rd_normal = binsof(CP_WEN.write_active) && binsof(CP_REN.read_active) 
+            bins concurrent_wr_rd_normal = binsof(CP_WEN.write_active) && binsof(CP_REN.read_active) 
                                    && binsof(CP_FULL.not_full) && binsof(CP_EMPTY.not_empty);
 
    
-    ignore_bins ignore_all_transitions = binsof(CP_FULL.full_assert)   || binsof(CP_FULL.full_deassert)
+            ignore_bins ignore_all_transitions = binsof(CP_FULL.full_assert)   || binsof(CP_FULL.full_deassert)
                                       || binsof(CP_EMPTY.empty_assert)  || binsof(CP_EMPTY.empty_deassert);
-
-   
-    ignore_bins invalid_full_and_empty = binsof(CP_FULL.is_full) && binsof(CP_EMPTY.is_empty);
-    ignore_bins invalid_write_when_empty = binsof(CP_WEN.write_active)
+            ignore_bins invalid_full_and_empty = binsof(CP_FULL.is_full) && binsof(CP_EMPTY.is_empty);
+            ignore_bins invalid_write_when_empty = binsof(CP_WEN.write_active)
                                         && binsof(CP_EMPTY.is_empty);
 }
-
         CP_WR_DATA: coverpoint vif.wr_data iff (vif.w_en && vif.w_rstn) {
             bins all_zeros  = {'0};
             bins all_ones   = {'1};
