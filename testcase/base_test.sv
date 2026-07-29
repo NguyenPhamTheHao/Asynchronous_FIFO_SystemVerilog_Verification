@@ -44,7 +44,7 @@ class base_test #(DATA_WIDTH=8);
       run_scenario();
     join_any
       //env.sb.report(error_cnt);
-      #300ns;
+      #1000ns;
       env.report();
       $display("%0t: [base_test] End simulation",$time);
       $finish;

@@ -113,12 +113,15 @@ proc gen_cov {} {
     eval vcover merge IP.ucdb $ucdb_files
     
     puts "\[INFO\] Generating Summary Text Report..."
-    vcover report IP.ucdb -output coverage/summary_report.txt
-    
-    puts "\[INFO\] Generating Detailed Text Report..."
-    vcover report -zeros -details -code bcesft -annotate -All -codeAll IP.ucdb -output coverage/detail_report.txt
-    
-    puts "\[INFO\] Done! Check 'coverage/detail_report.txt'."
+   vcover report -code bcesft -cvg IP.ucdb -output coverage/summary_report.txt
+
+    puts "\[INFO\] Generating Detailed Code & Functional Coverage Report..."
+    # Thêm -cvg để hiện Covergroup/Coverpoint
+    vcover report -zeros -details -code bcesft -cvg IP.ucdb -output coverage/detail_report.txt
+
+    puts "\[INFO\] Generating Dedicated Functional Coverage Report..."
+    # Báo cáo riêng biệt chỉ cho Covergroups (rất dễ theo dõi)
+    vcover report -cvg -details IP.ucdb -output coverage/functional_coverage.txt
 }
 
 
@@ -135,8 +138,7 @@ proc gen_html {} {
     eval vcover merge IP.ucdb $ucdb_files
     
     puts "\[INFO\] Generating HTML Report..."
-    vcover report -zeros -details -code bcesft -annotate -testhitdataAll -html -htmldir coverage/html_report IP.ucdb
-    
+    vcover report -html -htmldir coverage/html_report -code bcesft -cvg -details -testhitdataAll IP.ucdb
     puts "\[INFO\] Done! Open 'coverage/html_report/index.html' in browser."
 }
 

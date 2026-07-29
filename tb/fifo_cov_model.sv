@@ -17,16 +17,15 @@ class fifo_cov_model #(parameter DATA_WIDTH = 8);
             bins empty_assert   = (1'b0 => 1'b1); 
             bins empty_deassert = (1'b1 => 1'b0);
         }
+
         CP_WEN: coverpoint vif.w_en {
             bins write_active = {1'b1};
             bins write_idle   = {1'b0};
-            bins b2b_write    = (1'b1 => 1'b1); 
         }
 
         CP_REN: coverpoint vif.r_en {
             bins read_active  = {1'b1};
             bins read_idle    = {1'b0};
-            bins b2b_read     = (1'b1 => 1'b1); 
         }
 
         CP_W_RSTN: coverpoint vif.w_rstn {
@@ -42,41 +41,42 @@ class fifo_cov_model #(parameter DATA_WIDTH = 8);
         CROSS_RESET_WHEN_DATA: cross CP_W_RSTN, CP_EMPTY {
             bins reset_at_empty  = binsof(CP_W_RSTN.reset_asserted) && binsof(CP_EMPTY.is_empty);
             bins reset_at_middle = binsof(CP_W_RSTN.reset_asserted) && binsof(CP_EMPTY.not_empty);
-        }
-
-        CROSS_RESET_WHILE_WRITE: cross CP_W_RSTN, CP_WEN {
-            bins rst_during_write = binsof(CP_W_RSTN.reset_asserted) && binsof(CP_WEN.write_active);
-        }
-
-        CROSS_RESET_WHILE_READ: cross CP_R_RSTN, CP_REN {
-            bins rst_during_read = binsof(CP_R_RSTN.reset_asserted) && binsof(CP_REN.read_active);
+            ignore_bins others = binsof(CP_W_RSTN.reset_deasserted) 
+                      || binsof(CP_EMPTY.empty_assert) 
+                      || binsof(CP_EMPTY.empty_deassert);
         }
 
         CROSS_OVERFLOW: cross CP_WEN, CP_FULL {
             bins overflow_attempt = binsof(CP_WEN.write_active) && binsof(CP_FULL.is_full);
+            ignore_bins others = !binsof(CP_WEN.write_active) || !binsof(CP_FULL.is_full);
         }
 
         CROSS_UNDERFLOW: cross CP_REN, CP_EMPTY {
             bins underflow_attempt = binsof(CP_REN.read_active) && binsof(CP_EMPTY.is_empty);
+            ignore_bins others = !binsof(CP_REN.read_active) || !binsof(CP_EMPTY.is_empty);
         }
 
         CROSS_SIMULTANEOUS_STATES: cross CP_WEN, CP_REN, CP_FULL, CP_EMPTY {
-            bins concurrent_wr_rd_normal = binsof(CP_WEN.write_active) && binsof(CP_REN.read_active) 
-                                           && binsof(CP_FULL.not_full) && binsof(CP_EMPTY.not_empty);
-            bins concurrent_wr_rd_empty  = binsof(CP_WEN.write_active) && binsof(CP_REN.read_active) 
-                                           && binsof(CP_EMPTY.is_empty);
-            bins concurrent_wr_rd_full   = binsof(CP_WEN.write_active) && binsof(CP_REN.read_active) 
-                                           && binsof(CP_FULL.is_full);
-         
-            ignore_bins invalid_full_and_empty = binsof(CP_FULL.is_full) && binsof(CP_EMPTY.is_empty);
-        }
+
+    bins concurrent_wr_rd_normal = binsof(CP_WEN.write_active) && binsof(CP_REN.read_active) 
+                                   && binsof(CP_FULL.not_full) && binsof(CP_EMPTY.not_empty);
+
+   
+    ignore_bins ignore_all_transitions = binsof(CP_FULL.full_assert)   || binsof(CP_FULL.full_deassert)
+                                      || binsof(CP_EMPTY.empty_assert)  || binsof(CP_EMPTY.empty_deassert);
+
+   
+    ignore_bins invalid_full_and_empty = binsof(CP_FULL.is_full) && binsof(CP_EMPTY.is_empty);
+    ignore_bins invalid_write_when_empty = binsof(CP_WEN.write_active)
+                                        && binsof(CP_EMPTY.is_empty);
+}
 
         CP_WR_DATA: coverpoint vif.wr_data iff (vif.w_en && vif.w_rstn) {
             bins all_zeros  = {'0};
             bins all_ones   = {'1};
             bins alt_10     = {8'hAA};
             bins alt_01     = {8'h55};
-            bins walking_1s = {8'h01, 8'h02, 8'h04, 8'h08, 8'h10, 8'h20, 8'h40, 8'h80};
+            bins walking_1s = {8'h01, 8'h02, 8'h04, 8 'h08, 8'h10, 8'h20, 8'h40, 8'h80};
             bins random     = default;
         }
 

@@ -51,6 +51,7 @@ If write speed is high as compared to read speed, design is only possible if dat
 * **[scoreboard.sv](tb/scoreboard.sv)**: Compares expected data/flags against actual DUT outputs, tracks errors, and reports the final verification.
 * **[environment.sv](tb/environment.sv)**: The container class that instantiates, the execution of the generator, driver, monitor, and scoreboard.
 * **[interface.sv](tb/interface.sv)**: Defines the hardware signals bridging the class-based, object-oriented testbench with the static hardware DUT. 
+* **[fifo_cov_model.sv](tb/fifo_cov_model.sv)**: Implements functional coverage for FIFO operations, flags, reset scenarios, and data patterns.
 * **[testbench.sv](tb/testbench.sv)**: The static top-level module that instantiates the DUT, connects it to the physical interface, and launches the execution of the verification environment.
 ### Verification Plan
 The verification strategy is built upon a hybrid approach that combines dynamic simulation with assertion-based verification:
@@ -85,3 +86,10 @@ Test Outcome: The testcase terminated cleanly with an explicit [ PASSED ] status
 #### Waveform
 
 ![waveform](image/Waveform_Of_testcase8.png)
+
+#### Functional Coverage Resul
+![Func1](image/Functional_Cov_Result1.png)
+
+![Func2](image/Functional_Cov_Result2.png)
+
+![Func3](image/Functional_Cov_Result3.png)
